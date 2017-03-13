@@ -42,7 +42,6 @@ class BaseMongoAdminTests(unittest.TestCase):
         self.req.user = DummyUser(is_authenticated=False)
         self.assertFalse(BaseMongoAdmin().has_edit_permission(self.req))
 
-    
     def testHasAddPerms(self):
         self.req.user = DummyUser(is_authenticated=True, is_active=True,
                                   is_staff=True)
@@ -58,7 +57,6 @@ class BaseMongoAdminTests(unittest.TestCase):
         
         self.req.user = DummyUser(is_authenticated=False)
         self.assertFalse(BaseMongoAdmin().has_add_permission(self.req))
-
 
     def testHasDeletPerms(self):
         self.req.user = DummyUser(is_authenticated=True, is_active=True,
@@ -79,5 +77,3 @@ class BaseMongoAdminTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-        

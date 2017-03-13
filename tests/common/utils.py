@@ -11,6 +11,7 @@ from django.conf import settings
 
 from mongoengine import connect
 
+
 class MongoTestCase(TestCase):
     """
     TestCase class that clear the collection between the tests
@@ -24,6 +25,7 @@ class MongoTestCase(TestCase):
     def _post_teardown(self):
         super(MongoTestCase, self)._post_teardown()
         self.db.drop_database(self.db_name)
+
 
 class DummyUser(object):
 

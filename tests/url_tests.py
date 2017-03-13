@@ -22,14 +22,14 @@ class IndexViewTests(unittest.TestCase):
         django.setup()
 
     def testURLResolver(self):
-        '''
+        """
             Tests whether reverse function inside get_document_value can 
             correctly return a document_detail url when given a set of:
             <document_name> <app_label> and <id>
             Both <document_name> and <app_label> will contain dots, eg.
                 <document_name> : 'User.NewUser'
                 <app_label>     : 'examples.blog.articles'
-        '''
+        """
 
         urls_tmp = settings.ROOT_URLCONF
         settings.ROOT_URLCONF = 'examples.blog.urls'
@@ -44,7 +44,7 @@ class IndexViewTests(unittest.TestCase):
 
         try:
             v = get_document_value(p, 'author')
-        except NoReverseMatch, e:
+        except NoReverseMatch as e:
             match_found = False
 
         settings.ROOT_URLCONF = urls_tmp
@@ -52,12 +52,12 @@ class IndexViewTests(unittest.TestCase):
         self.assertEquals(match_found, True)
 
     def testDetailViewRendering(self):
-        '''
+        """
             Tries to render a detail view byt giving it data 
             from examples.blog. As <app_label> and <document_name>
             may contain dots, it checks whether NoReverseMatch exception
             was raised.
-        '''
+        """
 
         self.req.user = DummyUser()
 
@@ -65,18 +65,18 @@ class IndexViewTests(unittest.TestCase):
         settings.ROOT_URLCONF = 'examples.blog.urls'
 
         self.view = DocumentDetailView.as_view()(
-                        app_label='examples.blog.articles', 
-                        document_name='Post', 
-                        id=ObjectId('abcabcabcabc'),
-                        request=self.req, 
-                        models=import_module('examples.blog.articles.models')
-                    )
+            app_label='examples.blog.articles',
+            document_name='Post',
+            id=ObjectId('abcabcabcabc'),
+            request=self.req,
+            models=import_module('examples.blog.articles.models')
+        )
 
         match_found = True
 
         try:
             self.view.render()
-        except NoReverseMatch, e:
+        except NoReverseMatch as e:
             match_found = False
 
         settings.ROOT_URLCONF = urls_tmp
@@ -84,10 +84,10 @@ class IndexViewTests(unittest.TestCase):
         self.assertEquals(match_found, True)
 
     def testUnicodeURLResolver(self):
-        '''
+        """
             Similarly to testURLResolver, it tests whether get_document_value does not throw an exception.
             This time, the value with unicode characters is provided.
-        '''
+        """
         
         settings.ROOT_URLCONF = 'examples.blog.urls'
 
@@ -96,7 +96,7 @@ class IndexViewTests(unittest.TestCase):
         email = u"ąćźżńłóśę@gmail.com"
 
         u = NewUser(email=email)
-        u.id=ObjectId('abcabcabcabc')
+        u.id = ObjectId('abcabcabcabc')
 
         p = Post(author=u, title='Test Post')
         p.id = ObjectId('abcabcabcabc')
@@ -106,7 +106,7 @@ class IndexViewTests(unittest.TestCase):
         try:
             res = get_document_value(p, 'author')
             unicode_ok = True
-        except UnicodeEncodeError, e:
+        except UnicodeEncodeError as e:
             pass
 
         self.assertTrue(unicode_ok)
