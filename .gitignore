@@ -23,16 +23,6 @@ pip-log.txt
 #Translations
 *.mo
 
-#Mr Developer
-.mr.developer.cfg
-
-# Django
-dev.db*
-dev
-*.log
-local_settings.py
-collected_static/
-
 # Local file cruft/auto-backups
 .DS_Store
 *~
@@ -50,3 +40,6 @@ _data
 
 # PostgreSQL
 logfile
+
+# PyCharm files
+.idea/
