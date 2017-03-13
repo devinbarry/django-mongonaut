@@ -10,7 +10,6 @@ from mongonaut.exceptions import NoMongoAdminSpecified
 from mongonaut.forms import MongoModelForm
 from mongonaut.forms.form_utils import has_digit
 from mongonaut.forms.form_utils import make_key
-from mongonaut.utils import translate_value
 from mongonaut.utils import trim_field_key
 
 
@@ -36,7 +35,8 @@ class MongonautViewMixin(object):
 
     def render_to_response(self, context, **response_kwargs):
         if hasattr(self, 'permission') and not self.request.user.has_perm(self.permission):
-            return HttpResponseForbidden("You do not have permissions to access this content. Login as a superuser to view and edit data.")
+            return HttpResponseForbidden("You do not have permissions to access this content. Login as a superuser "
+                                         "to view and edit data.")
 
         return self.response_class(
             request=self.request,
@@ -47,13 +47,14 @@ class MongonautViewMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(MongonautViewMixin, self).get_context_data(**kwargs)
-        context['MONGONAUT_JQUERY'] = getattr(settings, "MONGONAUT_JQUERY",
-                                      "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
-        context['MONGONAUT_TWITTER_BOOTSTRAP'] = getattr(settings, "MONGONAUT_TWITTER_BOOTSTRAP",
-                                                 "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css")
-        context['MONGONAUT_TWITTER_BOOTSTRAP_ALERT'] = getattr(settings,
-                                                               "MONGONAUT_TWITTER_BOOTSTRAP_ALERT",
-                                                       "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js")
+        context['MONGONAUT_JQUERY'] = getattr(
+            settings, "MONGONAUT_JQUERY", "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+        context['MONGONAUT_TWITTER_BOOTSTRAP'] = getattr(
+            settings, "MONGONAUT_TWITTER_BOOTSTRAP",
+            "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css")
+        context['MONGONAUT_TWITTER_BOOTSTRAP_ALERT'] = getattr(
+            settings, "MONGONAUT_TWITTER_BOOTSTRAP_ALERT",
+            "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js")
         return context
 
     def get_mongoadmins(self):
@@ -193,8 +194,7 @@ class MongonautFormViewMixin(object):
             elif is_list:
                 self.set_list_field(document, form_key, current_key, remaining_key, key_array_digit)
             else:
-                value = translate_value(document._fields[current_key],
-                                        self.form.cleaned_data[form_key])
+                value = self.form.cleaned_data[form_key]
                 setattr(document, current_key, value)
 
     def set_embedded_doc(self, document, form_key, current_key, remaining_key):
@@ -217,7 +217,7 @@ class MongonautFormViewMixin(object):
 
         # Figure out what value the list ought to have
         # None value for ListFields make mongoengine very un-happy
-        list_value = translate_value(document_field.field, self.form.cleaned_data[form_key])
+        list_value = self.form.cleaned_data[form_key]
         if list_value is None or (not list_value and not bool(list_value)):
             return None
 

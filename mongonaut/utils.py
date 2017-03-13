@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from mongoengine.base import ObjectIdField, ValidationError
-from mongoengine.fields import ReferenceField
+from mongoengine.errors import ValidationError
+from mongoengine.base.fields import ObjectIdField
 
 # Used to validate object_ids.
 # Called by is_valid_object_id
@@ -15,17 +15,6 @@ def is_valid_object_id(value):
         return True
     except ValidationError:
         return False
-
-
-def translate_value(document_field, form_value):
-    """
-    Given a document_field and a form_value this will translate the value
-    to the correct result for mongo to use.
-    """
-    value = form_value
-    if isinstance(document_field, ReferenceField):
-        value = document_field.document_type.objects.get(id=form_value) if form_value else None
-    return value
 
 
 def trim_field_key(document, field_key):
