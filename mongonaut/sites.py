@@ -14,7 +14,7 @@ class BaseMongoAdmin(object):
     # TODO: Confirm that this is what the Django admin uses
     list_fields = []
 
-    #This shows up on the DocumentListView of the Posts
+    # This shows up on the DocumentListView of the Posts
     list_actions = []
 
     # This shows up in the DocumentDetailView of the Posts.

@@ -23,7 +23,7 @@ class User(Document):
     first_name = StringField(max_length=50)
     last_name = StringField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 
@@ -77,13 +77,12 @@ class Post(Document):
         super(Post, self).save(*args, **kwargs)
 
 
-
 class OrderedUser(Document):
     email = StringField(required=True, max_length=50)
     first_name = StringField(max_length=50)
     last_name = StringField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
     class Meta:

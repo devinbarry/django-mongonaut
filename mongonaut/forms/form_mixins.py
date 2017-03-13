@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from copy import deepcopy
+from collections import OrderedDict
 
 from django import forms
 from mongoengine.base import BaseList
@@ -16,23 +17,9 @@ from .form_utils import make_key
 from .widgets import get_form_field_class
 from mongonaut.utils import trim_field_key
 
-try:
-    # OrderedDict New in version 2.7
-    from collections import OrderedDict
-except ImportError:
-    OrderedDict = dict
-
 CHECK_ATTRS = {'required': 'required',
                'help_text': 'help_text',
                'name': 'name'}
-
-
-def get_document_unicode(document):
-    """Safely converts MongoDB document strings to unicode."""
-    try:
-        return document.__unicode__()
-    except AttributeError:
-        return unicode(document)
 
 
 class MongoModelFormBaseMixin(object):
@@ -135,8 +122,7 @@ class MongoModelFormBaseMixin(object):
                         field_value.widget.attrs['class'] += ' listField'
 
                     # Compute number value for list key
-                    list_keys = [field_key for field_key in self.form.fields.keys()
-                                           if has_digit(field_key)]
+                    list_keys = [field_key for field_key in self.form.fields.keys() if has_digit(field_key)]
 
                     key_int = 0
                     while form_key in list_keys:
@@ -147,7 +133,7 @@ class MongoModelFormBaseMixin(object):
 
                     # Get the base key for our embedded field class
                     valid_base_keys = [model_key for model_key in self.model_map_dict.keys()
-                                                 if not model_key.startswith("_")]
+                                       if not model_key.startswith("_")]
                     while base_key not in valid_base_keys and base_key:
                         base_key = make_key(base_key, exclude_last_string=True)
 
@@ -156,6 +142,7 @@ class MongoModelFormBaseMixin(object):
                     embedded_key_class = None
                     if set_list_class:
                         field_value.widget.attrs['class'] += " listField".format(base_key)
+                        # TODO 'field_key' is not defined. What var should this be?
                         embedded_key_class = make_key(field_key, exclude_last_string=True)
 
                     field_value.widget.attrs['class'] += " embeddedField"
@@ -180,7 +167,7 @@ class MongoModelFormBaseMixin(object):
                     for list_value in default_value:
                         # Note, this is copied every time so each widget gets a different class
                         list_widget = deepcopy(field_value.widget)
-                        new_key = make_key(new_base_key, unicode(key_index))
+                        new_key = make_key(new_base_key, str(key_index))
                         list_widget.attrs['class'] += " {0}".format(make_key(base_key, key_index))
                         self.set_form_field(list_widget, field_value.document_field, new_key, list_value)
                         key_index += 1
@@ -224,8 +211,7 @@ class MongoModelFormBaseMixin(object):
             self.form.fields[field_key].initial = getattr(model_field, 'default', None)
 
         if isinstance(model_field, ReferenceField):
-            self.form.fields[field_key].choices = [(unicode(x.id), get_document_unicode(x))
-                                                    for x in model_field.document_type.objects.all()]
+            self.form.fields[field_key].choices = [(str(x.id), str(x)) for x in model_field.document_type.objects.all()]
             # Adding in blank choice so a reference field can be deleted by selecting blank
             self.form.fields[field_key].choices.insert(0, ("", ""))
 

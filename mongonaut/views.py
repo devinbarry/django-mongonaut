@@ -115,7 +115,7 @@ class DocumentListView(MongonautViewMixin, FormView):
     def get_initial(self):
         """Used during adding/editing of data."""
         self.query = self.get_queryset()
-        mongo_ids = {'mongo_id': [unicode(x.id) for x in self.query]}
+        mongo_ids = {'mongo_id': [str(x.id) for x in self.query]}
         return mongo_ids
 
     def get_context_data(self, **kwargs):
@@ -230,7 +230,8 @@ class DocumentEditFormView(MongonautViewMixin, FormView, MongonautFormViewMixin)
 
     def get_success_url(self):
         self.set_mongonaut_base()
-        return reverse('document_detail_edit_form', kwargs={'app_label': self.app_label, 'document_name': self.document_name, 'id': self.kwargs.get('id')})
+        return reverse('document_detail_edit_form', kwargs={
+            'app_label': self.app_label, 'document_name': self.document_name, 'id': self.kwargs.get('id')})
 
     def get_context_data(self, **kwargs):
         context = super(DocumentEditFormView, self).get_context_data(**kwargs)
@@ -281,7 +282,8 @@ class DocumentAddFormView(MongonautViewMixin, FormView, MongonautFormViewMixin):
 
     def get_success_url(self):
         self.set_mongonaut_base()
-        return reverse('document_detail', kwargs={'app_label': self.app_label, 'document_name': self.document_name, 'id': str(self.new_document.id)})
+        return reverse('document_detail', kwargs={'app_label': self.app_label, 'document_name': self.document_name,
+                                                  'id': str(self.new_document.id)})
 
     def get_context_data(self, **kwargs):
         """ TODO - possibly inherit this from DocumentEditFormView. This is same thing minus:

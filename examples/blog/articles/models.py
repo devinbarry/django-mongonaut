@@ -25,13 +25,13 @@ class User(Document):
 
     meta = {'allow_inheritance': True}
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 class NewUser(User):
     new_field = StringField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 
