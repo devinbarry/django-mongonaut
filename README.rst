@@ -113,6 +113,6 @@ All the documentation for this project is hosted at https://django-mongonaut.rea
 Dependencies
 ============
 
-- mongoengine >=0.5.2
-- pymongo (comes with mongoengine)
+- mongoengine >=0.11.0
+- pymongo >=3.4.0
 - sphinx (optional - for documentation generation)
