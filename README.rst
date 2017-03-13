@@ -11,15 +11,14 @@ Upgrades!
 
 This is a fork of Jazzband django-mongonaut repo. This fork is tested to work against
 
-Python 3.5
-Django 1.10.5
-Mongoengine 0.11.0
-Pymongo 3.4.0
-Mongo DB v3.4.2
+ - Python 3.5
+ - Django 1.10.5
+ - Mongoengine 0.11.0
+ - Pymongo 3.4.0
+ - Mongo DB v3.4.2
 
-Tested on Ubuntu 16.10
-
-This version also supports automatic detection of the module name for your Mongoengine models. No need to put them in models.py anymore. Call your module anything you like!
+All testing done on Ubuntu 16.10.
+Additionally, this version also supports automatic detection of the module name for your Mongoengine models. No need to put them in models.py anymore. Call your module anything you like!
 
 
 Differences / Goal
