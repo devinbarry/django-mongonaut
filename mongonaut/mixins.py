@@ -29,8 +29,9 @@ class AppStore(object):
 
 
 class MongonautViewMixin(object):
-    """Used for all views in the project, handles authorization to content,
-        viewing, controlling and setting of data.
+    """
+    Used for all views in the project, handles authorization to content,
+    viewing, controlling and setting of data.
     """
 
     def render_to_response(self, context, **response_kwargs):
@@ -70,17 +71,15 @@ class MongonautViewMixin(object):
                 raise e
 
             app_store = AppStore(module)
-            apps.append(dict(
-                app_name=app_name,
-                obj=app_store
-            ))
+            apps.append(dict(app_name=app_name, obj=app_store))
         return apps
 
     def set_mongonaut_base(self):
         """ Sets a number of commonly used attributes """
         if hasattr(self, "app_label"):
             # prevents us from calling this multiple times
-            return None
+            return
+
         self.app_label = self.kwargs.get('app_label')
         self.document_name = self.kwargs.get('document_name')
 
@@ -92,7 +91,8 @@ class MongonautViewMixin(object):
         self.models = import_module(self.model_name)
 
     def set_mongoadmin(self):
-        """ Returns the MongoAdmin object for an app_label/document_name style view
+        """
+        Returns the MongoAdmin object for an app_label/document_name style view
         """
         if hasattr(self, "mongoadmin"):
             return None
@@ -109,8 +109,12 @@ class MongonautViewMixin(object):
         if not hasattr(self, "mongoadmin"):
             raise NoMongoAdminSpecified("No MongoAdmin for {0}.{1}".format(self.app_label, self.document_name))
 
-    def set_permissions_in_context(self, context={}):
-        """ Provides permissions for mongoadmin for use in the context"""
+    def set_permissions_in_context(self, context=None):
+        """
+        Provides permissions for mongoadmin for use in the context
+        """
+        if context is None:
+            context = {}
 
         context['has_view_permission'] = self.mongoadmin.has_view_permission(self.request)
         context['has_edit_permission'] = self.mongoadmin.has_edit_permission(self.request)
@@ -141,7 +145,8 @@ class MongonautFormViewMixin(object):
         self.form.is_bound = True
         if self.form.is_valid():
 
-            self.document_map_dict = MongoModelForm(model=self.document_type).create_document_dictionary(self.document_type)
+            self.document_map_dict = MongoModelForm(model=self.document_type).create_document_dictionary(
+                self.document_type)
             self.new_document = self.document_type
 
             # Used to keep track of embedded documents in lists.  Keyed by the list and the number of the
@@ -183,8 +188,8 @@ class MongonautFormViewMixin(object):
 
         # Create boolean checks to make processing document easier
         is_embedded_doc = (isinstance(document._fields.get(current_key, None), EmbeddedDocumentField)
-                          if hasattr(document, '_fields') else False)
-        is_list = not key_array_digit is None
+                           if hasattr(document, '_fields') else False)
+        is_list = key_array_digit is not None
         key_in_fields = current_key in document._fields.keys() if hasattr(document, '_fields') else False
 
         # This ensures you only go through each documents keys once, and do not duplicate data

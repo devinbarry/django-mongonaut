@@ -44,17 +44,11 @@ class DocumentListView(MongonautViewMixin, FormView):
     success_url = '/'
     template_name = "mongonaut/document_list.html"
     permission = 'has_view_permission'
-
     documents_per_page = 25
 
-    #def dispatch(self, *args, **kwargs):
-    #    self.set_mongoadmin()
-    #    self.set_permissions()
-    #    return super(DocumentListView, self).dispatch(*args, **kwargs)
-
     def get_qset(self, queryset, q):
-        """Performs filtering against the default queryset returned by
-            mongoengine.
+        """
+        Performs filtering against the default queryset returned by mongoengine.
         """
         if self.mongoadmin.search_fields and q:
             params = {}
@@ -72,7 +66,8 @@ class DocumentListView(MongonautViewMixin, FormView):
 
     @cached_property
     def get_queryset(self):
-        """Replicates Django CBV `get_queryset()` method, but for MongoEngine.
+        """
+        Replicates Django CBV `get_queryset()` method, but for MongoEngine.
         """
         self.set_mongonaut_base()
         self.set_mongoadmin()
