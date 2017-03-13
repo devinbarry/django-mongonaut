@@ -2,7 +2,16 @@
 CHANGELOG
 =========
 
-* 0.3.0 ???
+* 0.2.23 (14 March 2017)
+
+    * Added support for Django 1.10
+    * Added support for Python 3.5
+    * Removed support for Python 2
+    * No testing for Django versions below 1.10
+    * Automatic detection of the module name for your Mongomodels
+
+
+* 0.2.22 (February 2017)
 
    * Added logout link
    * Resolved bug with pagination (#82), thanks to @anushajp

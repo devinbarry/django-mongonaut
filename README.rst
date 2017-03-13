@@ -2,17 +2,31 @@
 django-mongonaut
 ================
 :Info: An introspective interface for Django and MongoDB.
-:Version: 0.2.22
+:Version: 0.2.23
 :Maintainer: Devin Barry
+
+
+Upgrades!
+=========
+
+This is a fork of Jazzband django-mongonaut repo. This fork is tested to work against
+
+Python 3.5
+Django 1.10.5
+Mongoengine 0.11.0
+Pymongo 3.4.0
+Mongo DB v3.4.2
+
+Tested on Ubuntu 16.10
+
+This version also supports automatic detection of the module name for your Mongoengine models. No need to put them in models.py anymore. Call your module anything you like!
 
 
 Differences / Goal
 ==================
 
-This is a fork of Jazzband repo. The original repo doesn't have much activity on it hence a new version here.
-
 I am working to upgrade this package to support the latest Django, the latest Python 3 and the latest Mongoengine / PyMongo / MongoDB.
-As part of this goal I will drop support for earlier versions of Django/Python.
+As part of this goal I will (likely) drop support for earlier versions of Django/Python.
 
 
 About
