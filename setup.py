@@ -42,11 +42,11 @@ setup(
     keywords='mongodb,django',
     author=mongonaut.__author__,
     author_email='pydanny@gmail.com',
-    url='http://github.com/jazzband/django-mongonaut',
+    url='https://github.com/devinbarry/django-mongonaut',
     license='MIT',
     packages=find_packages(exclude=['examples']),
     include_package_data=True,
     install_requires=['mongoengine>=0.5.2'],
     zip_safe=False,
-    use_2to3 = True,
+    use_2to3=True,
 )
