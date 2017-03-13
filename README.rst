@@ -2,31 +2,18 @@
 django-mongonaut
 ================
 :Info: An introspective interface for Django and MongoDB.
-:Version: 0.2.21
-:Maintainer: Jazzband (jazzband.co)
+:Version: 0.2.22
+:Maintainer: Devin Barry
 
-.. image:: https://travis-ci.org/jazzband/django-mongonaut.png
-   :alt: Build Status
-   :target: https://travis-ci.org/jazzband/django-mongonaut
 
-.. image:: https://codeclimate.com/github/jazzband/django-mongonaut/badges/gpa.svg
-   :alt: Code Climate
-   :target: https://codeclimate.com/github/jazzband/django-mongonaut
+Differences / Goal
+==================
 
-.. image:: https://jazzband.co/static/img/badge.svg
-  :target: https://jazzband.co/
-  :alt: Jazzband
+This is a fork of Jazzband repo. The original repo doesn't have much activity on it hence a new version here.
 
-This Project is Being Moved to Jazzband
-=======================================
+I am working to upgrade this package to support the latest Django, the latest Python 3 and the latest Mongoengine / PyMongo / MongoDB.
+As part of this goal I will drop support for earlier versions of Django/Python.
 
-In late 2015 `@garrypolley`_ and I agreed to move this project to the `@jazzband`_ organization. Since we've both been off MongoDB for several years, maintaining this project ourselves no longer makes sense. By handing this to Jazzband, we are:
-
-.. _`@garrypolley`: https://github.com/garrypolley
-.. _`@jazzband`: https://github.com/jazzband
-
-1. Putting the project in a place where it will be maintained and extended.
-2. Removes the time and effort needed to continue to accept and manage pull requests for a project we no longer wish to maintain but has a somewhat active user base.
 
 About
 =====
@@ -36,7 +23,7 @@ django-mongonaut is an introspective interface for working with MongoDB via mong
 By writing it from scratch I get to avoid trying to staple ORM functionality on top of MongoDB, a NoSQL key/value binary-tree store.
 
 Features
-=========
+========
 
 - Automatic introspection of mongoengine documents.
 - Ability to constrain who sees what and can do what.
@@ -54,11 +41,11 @@ Get MongoDB::
 
 Get mongoengine (and pymongo):
 
-    pip install mongoengine=>0.5.2
+    pip install --upgrade mongoengine
 
 Get the code::
 
-    pip install django-mongonaut==0.2.20
+    pip install https://github.com/devinbarry/django-mongonaut/archive/master.zip
 
 Install the dependency in your settings.py::
 
@@ -79,11 +66,11 @@ Add the mongonaut urls.py file to your urlconf file:
 
 .. sourcecode:: python
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
-        (r'^mongonaut/', include('mongonaut.urls')),
+        url((r'^mongonaut/', include('mongonaut.urls')),
         ...
-    )
+    ]
 
 
 Configuration
@@ -106,7 +93,7 @@ django-mongonaut will let you duplicate much of what `django.contrib.admin` give
 * https://django-mongonaut.readthedocs.io/en/latest/api.html
 
 Documentation
-==============
+=============
 
 All the documentation for this project is hosted at https://django-mongonaut.readthedocs.io.
 
@@ -116,10 +103,3 @@ Dependencies
 - mongoengine >=0.5.2
 - pymongo (comes with mongoengine)
 - sphinx (optional - for documentation generation)
-
-Code of Conduct
-===============
-
-This project follows the `Jazzband.co Code of Conduct`_.
-
-.. _`Jazzband.co Code of Conduct`: https://jazzband.co/about/conduct
