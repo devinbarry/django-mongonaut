@@ -149,7 +149,7 @@ class DocumentListView(MongonautViewMixin, FormView):
         context['total_pages'] = self.total_pages
 
         # Part of upcoming list view form functionality
-        if self.queryset.count():
+        if self.get_queryset.count():
             context['keys'] = ['id', ]
 
             # Show those items for which we've got list_fields on the mongoadmin

@@ -18,6 +18,8 @@ class AppStore(object):
 
     def __init__(self, module):
         self.models = []
+        self.module_name = None
+
         for key in module.__dict__.keys():
             model_candidate = getattr(module, key)
             if hasattr(model_candidate, 'mongoadmin'):
@@ -26,6 +28,13 @@ class AppStore(object):
     def add_model(self, model):
         model.name = model.__name__
         self.models.append(model)
+
+        # This is usually in format x.y
+        self.module_name = model.__module__
+
+    def get_module_name(self):
+        # We don't want the app name, just the module name
+        return self.module_name.split('.')[1]
 
 
 class MongonautViewMixin(object):
@@ -74,6 +83,25 @@ class MongonautViewMixin(object):
             apps.append(dict(app_name=app_name, obj=app_store))
         return apps
 
+    @staticmethod
+    def _get_models_module_name():
+        apps = {}
+        for app_name in settings.INSTALLED_APPS:
+            mongoadmin = "{0}.mongoadmin".format(app_name)
+            try:
+                module = import_module(mongoadmin)
+            except ImportError as e:
+                if str(e).startswith("No module named"):
+                    continue
+                raise e
+
+            apps[app_name] = AppStore(module)
+        return apps
+
+    def _models_module_name_for_app_label(self, app_label):
+        names = self._get_models_module_name()
+        return names[app_label].get_module_name()
+
     def set_mongonaut_base(self):
         """ Sets a number of commonly used attributes """
         if hasattr(self, "app_label"):
@@ -83,8 +111,9 @@ class MongonautViewMixin(object):
         self.app_label = self.kwargs.get('app_label')
         self.document_name = self.kwargs.get('document_name')
 
-        # TODO Allow this to be assigned via url variable
-        self.models_name = self.kwargs.get('models_name', 'models')
+        # TODO improve the hacks here
+        default_models_name = self._models_module_name_for_app_label(self.app_label)
+        self.models_name = self.kwargs.get('models_name', default_models_name)
 
         # import the models file
         self.model_name = "{0}.{1}".format(self.app_label, self.models_name)
