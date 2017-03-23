@@ -162,8 +162,8 @@ class MongonautFormViewMixin(object):
         """
         As long as the form is set on the view this method will validate the form
         and save the submitted data.  Only call this if you are posting data.
-        The given success_message will be used with the djanog messages framework
-        if the posted data sucessfully submits.
+        The given success_message will be used with the Django messages framework
+        if the posted data successfully submits.
         """
 
         # When on initial args are given we need to set the base document.
