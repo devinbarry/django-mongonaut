@@ -188,7 +188,7 @@ class MongoModelFormBaseMixin(object):
                              Default: None
         """
         # Empty lists cause issues on form validation
-        if default_value == []:
+        if isinstance(default_value, list) and len(default_value) == 0:
             default_value = None
 
         if widget and isinstance(widget, forms.widgets.Select):
@@ -253,9 +253,12 @@ class MongoModelFormBaseMixin(object):
             elif len(new_key_array) > 0:
                 return_data = get_value(document._data.get(current_key), new_key)
             else:
-                # Handeling all other fields and id
-                return_data = (document._data.get(None, None) if current_key == "id" else
-                              document._data.get(current_key, None))
+                # Handle all other fields and id
+                if current_key == "id":
+                    return_data = None
+                else:
+                    return_data = document._data.get(current_key, None)
+
             return return_data
 
         if self.is_initialized:
