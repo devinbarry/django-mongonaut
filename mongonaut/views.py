@@ -245,7 +245,7 @@ class DocumentEditFormView(MongonautViewMixin, FormView, MongonautFormViewMixin)
 
         return context
 
-    def get_form(self, Form):
+    def get_form(self, form_class=None):
         self.set_mongoadmin()
         context = self.set_permissions_in_context({})
 
@@ -258,7 +258,7 @@ class DocumentEditFormView(MongonautViewMixin, FormView, MongonautFormViewMixin)
             self.document = self.document_type.objects.get(pk=self.ident)
         except self.document_type.DoesNotExist:
             raise Http404
-        self.form = Form()
+        self.form = super(DocumentEditFormView, self).get_form(form_class)
 
         if self.request.method == 'POST':
             self.form = self.process_post_form('Your changes have been saved.')
@@ -297,10 +297,10 @@ class DocumentAddFormView(MongonautViewMixin, FormView, MongonautFormViewMixin):
 
         return context
 
-    def get_form(self, Form):
+    def get_form(self, form_class=None):
         self.set_mongonaut_base()
         self.document_type = getattr(self.models, self.document_name)
-        self.form = Form()
+        self.form = super(DocumentAddFormView, self).get_form(form_class)
 
         if self.request.method == 'POST':
             self.form = self.process_post_form('Your new document has been added and saved.')
