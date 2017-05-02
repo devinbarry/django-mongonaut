@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^mongonaut/', include('mongonaut.urls')),
     url(r'^', include('articles.urls')),
-)
+]
