@@ -105,6 +105,17 @@ django-mongonaut will let you duplicate much of what `django.contrib.admin` give
 
 * https://django-mongonaut.readthedocs.io/en/latest/api.html
 
+Testing
+=======
+
+To run the tests, create a virtual env and install the requirements from requirements.txt in the tests package.
+
+Run tests from within the tests package as one of the below:
+
+`python runtests.py`
+`python runtests_1_7.py`
+
+
 Documentation
 =============
 
