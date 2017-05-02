@@ -4,24 +4,24 @@ import sys
 import os
 
 if sys.hexversion < 0x02070000:
-     import unittest2 as unittest
+    import unittest2 as unittest
 else:
     import unittest
 
 
-#set path
+# set path
 TEST_ROOT = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.join(TEST_ROOT, '..')
-BLOG_ROOT = os.path.join(PROJECT_ROOT, 'examples','blog_1_7')
+BLOG_ROOT = os.path.join(PROJECT_ROOT, 'examples', 'blog_1_7')
 
 sys.path.append(PROJECT_ROOT)
-sys.path.append(BLOG_ROOT) #we are using settings.py from the example
+sys.path.append(BLOG_ROOT)  # we are using settings.py from the example
 
-#Ensure Django is configured to use our example site
+# Ensure Django is configured to use our example site
 os.environ['DJANGO_SETTINGS_MODULE'] = 'examples.blog_1_7.settings'
 
 
-#run the tests
+# run the tests
 tests = unittest.defaultTestLoader.discover(TEST_ROOT, pattern='*_tests.py')
 runner = unittest.TextTestRunner(verbosity=2)
 result = runner.run(unittest.TestSuite(tests))

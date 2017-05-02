@@ -29,8 +29,7 @@ class MongoTestCase(TestCase):
 
 class DummyUser(object):
 
-    def __init__(self, is_authenticated = True, is_active=True,
-                    can_view=True, is_staff=True, is_superuser=False,
+    def __init__(self, is_authenticated=True, is_active=True, can_view=True, is_staff=True, is_superuser=False,
                  has_perm=['has_view_permission']):
         self._is_authenticated = is_authenticated
         self._is_active = is_active

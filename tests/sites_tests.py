@@ -27,9 +27,7 @@ class BaseMongoAdminTests(unittest.TestCase):
         self.assertFalse(BaseMongoAdmin().has_view_permission(self.req))
 
     def testHasEditPerms(self):
-        self.req.user = DummyUser(is_authenticated=True, is_active=True,
-                                  is_staff=True)
-
+        self.req.user = DummyUser(is_authenticated=True, is_active=True, is_staff=True)
         self.assertTrue(BaseMongoAdmin().has_edit_permission(self.req))
 
     def testHasEditPermsInvalid(self):
@@ -43,9 +41,7 @@ class BaseMongoAdminTests(unittest.TestCase):
         self.assertFalse(BaseMongoAdmin().has_edit_permission(self.req))
 
     def testHasAddPerms(self):
-        self.req.user = DummyUser(is_authenticated=True, is_active=True,
-                                  is_staff=True)
-        
+        self.req.user = DummyUser(is_authenticated=True, is_active=True, is_staff=True)
         self.assertTrue(BaseMongoAdmin().has_add_permission(self.req))
 
     def testHasAddPermsInvalid(self):
@@ -59,8 +55,7 @@ class BaseMongoAdminTests(unittest.TestCase):
         self.assertFalse(BaseMongoAdmin().has_add_permission(self.req))
 
     def testHasDeletPerms(self):
-        self.req.user = DummyUser(is_authenticated=True, is_active=True,
-                                  is_superuser=True)
+        self.req.user = DummyUser(is_authenticated=True, is_active=True, is_superuser=True)
         
         self.assertTrue(BaseMongoAdmin().has_delete_permission(self.req))
 

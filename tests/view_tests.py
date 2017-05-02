@@ -12,7 +12,7 @@ class IndexViewTests(unittest.TestCase):
 
     def setUp(self):
         self.req = RequestFactory().get('/')
-        self.view = IndexView.as_view(template_name = "mongonaut/index.html")
+        self.view = IndexView.as_view(template_name="mongonaut/index.html")
 
     def testIndexViewReturnsValidPageWithProperPermissions(self):
         self.req.user = DummyUser()
@@ -24,16 +24,9 @@ class IndexViewTests(unittest.TestCase):
 
     def testIndexViewRequiresViewPermissions(self):
         self.req.user = DummyUser(has_perm=['no_view_permissions'])
-        
-        
         resp = self.view(self.req)
-        
         self.assertEquals(resp.status_code, 403)
-
-
 
 
 if __name__ == "__main__":
     unittest.main()
-
-        

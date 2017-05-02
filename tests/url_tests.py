@@ -23,22 +23,22 @@ class IndexViewTests(unittest.TestCase):
 
     def testURLResolver(self):
         """
-            Tests whether reverse function inside get_document_value can 
-            correctly return a document_detail url when given a set of:
-            <document_name> <app_label> and <id>
-            Both <document_name> and <app_label> will contain dots, eg.
-                <document_name> : 'User.NewUser'
-                <app_label>     : 'examples.blog.articles'
+        Tests whether reverse function inside get_document_value can
+        correctly return a document_detail url when given a set of:
+        <document_name> <app_label> and <id>
+        Both <document_name> and <app_label> will contain dots, eg.
+            <document_name> : 'User.NewUser'
+            <app_label>     : 'examples.blog.articles'
         """
 
         urls_tmp = settings.ROOT_URLCONF
         settings.ROOT_URLCONF = 'examples.blog.urls'
 
         u = NewUser(email='test@test.com')
-        u.id=ObjectId('abcabcabcabc')
+        u.id = ObjectId('666f6f2d6261722d71757578')
 
         p = Post(author=u, title='Test')
-        p.id = ObjectId('abcabcabcabc')
+        p.id = ObjectId('666f6f2d6261722d71757578')
 
         match_found = True
 
@@ -53,10 +53,10 @@ class IndexViewTests(unittest.TestCase):
 
     def testDetailViewRendering(self):
         """
-            Tries to render a detail view byt giving it data 
-            from examples.blog. As <app_label> and <document_name>
-            may contain dots, it checks whether NoReverseMatch exception
-            was raised.
+        Tries to render a detail view byt giving it data
+        from examples.blog. As <app_label> and <document_name>
+        may contain dots, it checks whether NoReverseMatch exception
+        was raised.
         """
 
         self.req.user = DummyUser()
@@ -67,7 +67,7 @@ class IndexViewTests(unittest.TestCase):
         self.view = DocumentDetailView.as_view()(
             app_label='examples.blog.articles',
             document_name='Post',
-            id=ObjectId('abcabcabcabc'),
+            id=ObjectId('666f6f2d6261722d71757578'),
             request=self.req,
             models=import_module('examples.blog.articles.models')
         )
@@ -92,14 +92,13 @@ class IndexViewTests(unittest.TestCase):
         settings.ROOT_URLCONF = 'examples.blog.urls'
 
         # Some unicode characters
-
         email = u"ąćźżńłóśę@gmail.com"
 
         u = NewUser(email=email)
-        u.id = ObjectId('abcabcabcabc')
+        u.id = ObjectId('666f6f2d6261722d71757578')
 
         p = Post(author=u, title='Test Post')
-        p.id = ObjectId('abcabcabcabc')
+        p.id = ObjectId('666f6f2d6261722d71757578')
 
         unicode_ok = False
 
